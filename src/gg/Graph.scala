@@ -107,7 +107,6 @@ class Graphs {
   val k = sqrt(area / node.length)
   def force() {
     //graph layout
-    //no two nodes can be in the same position
     //println(shit.edges.length)
     //println(shit.edges.distinct.length)
     //check that these are the same or else have function move ofending nodes

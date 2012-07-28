@@ -11,7 +11,7 @@ import scala.math._
 object Gapp extends PApplet{
 
   def main(args: Array[String]): Unit = {
-    var frame = new javax.swing.JFrame("Shit tards")
+    var frame = new javax.swing.JFrame("Network Graph")
     var applet = Gapp
     frame.getContentPane().add(applet)
     applet.init
@@ -19,10 +19,10 @@ object Gapp extends PApplet{
     frame.setVisible(true)
   } 
 
-  var shit = new Graphs  
+  var nw = new Graphs  
   
-  for (x <- shit.node) {
-    shit.pos(x) = (random(600).toInt, random(600).toInt)
+  for (x <- nw.node) {
+    nw.pos(x) = (random(600).toInt, random(600).toInt)
   }
   
   override def setup(): Unit = {
@@ -47,34 +47,28 @@ object Gapp extends PApplet{
   
   var button = 0
   
-  /* set up button level management
-   * different modes of button tells the tool what to do 
-   * during draw state
-   * button = 0 - regular draw model
-   * button = 1 - clicked
-   * button = 2 - edge mode
-   */
 
   override def draw(): Unit = {
     background(51)
+    rect(20, 20, 570, 570)
     cursor(processing.core.PConstants.ARROW)
-    shit.force()
+    nw.force()
     fill(0) 
       rect(700, 140, 100, 50)
       rect(700, 240, 100, 50)
-    fill(250)
+    fill(25)
     text("Add Node", 720, 170)
     text(button, 720, 370)
     text("Add Edge", 720, 270)
     if (button == 5) {
-      shit.addEdge(shit.new1, shit.new2)
+      nw.addEdge(nw.new1, nw.new2)
       button = 0
     }
     if ((mouseX > 700) && (mouseX < 800) &&
           (mouseY > 140) && (mouseY < 190)) {
       cursor(processing.core.PConstants.HAND)
       	if (button == 1)  {
-        shit.addNode()
+        nw.addNode()
         button = 0
       }
     }
@@ -86,36 +80,36 @@ object Gapp extends PApplet{
       }
     }
 
-    println(shit.kinEnergy)
-    for (x <- shit.node) {
+    println(nw.kinEnergy)
+    for (x <- nw.node) {
       fill(250)
-      ellipse(shit.pos(x)._1.toFloat, shit.pos(x)._2.toFloat, 10, 10)
+      ellipse(nw.pos(x)._1.toFloat, nw.pos(x)._2.toFloat, 10, 10)
     	
     }
-    for (x <- shit.edges) {
-    	line(shit.pos(x._1)._1.toFloat, shit.pos(x._1)._2.toFloat, shit.pos(x._2)._1.toFloat, shit.pos(x._2)._2.toFloat)
+    for (x <- nw.edges) {
+    	line(nw.pos(x._1)._1.toFloat, nw.pos(x._1)._2.toFloat, nw.pos(x._2)._1.toFloat, nw.pos(x._2)._2.toFloat)
     }
-    println(shit.edges)
-    for (x <- shit.node) {
-      if ((mouseX > shit.pos(x)._1 - 8) && 
-          (mouseX < shit.pos(x)._1 + 8) &&
-          (mouseY > shit.pos(x)._2 - 8) && 
-          (mouseY < shit.pos(x)._2 + 8)) {
+    println(nw.edges)
+    for (x <- nw.node) {
+      if ((mouseX > nw.pos(x)._1 - 8) && 
+          (mouseX < nw.pos(x)._1 + 8) &&
+          (mouseY > nw.pos(x)._2 - 8) && 
+          (mouseY < nw.pos(x)._2 + 8)) {
     	  	if (mousePressed) {
-    	  	  shit.pos(x) = (mouseX, mouseY)
+    	  	  nw.pos(x) = (mouseX, mouseY)
     	  	}
     	  	if (mousePressed && button == 2) {
-    	  	  shit.new1 = x
+    	  	  nw.new1 = x
     	  	  button = 3
     	  	}
     	  	if (mousePressed && button == 4) {
-    	  	  shit.new2 = x
+    	  	  nw.new2 = x
     	  	  button = 5
     	  	}
-    	  	text("Node " + x, (shit.pos(x)._1+20).toFloat, shit.pos(x)._2.toFloat)
+    	  	text("Node " + x, (nw.pos(x)._1+20).toFloat, nw.pos(x)._2.toFloat)
       }
-         /* text("Node " + shit.node(x), shit.pos(x)._1+20, shit.pos(x)._2)
-          text("Cluster Coefficient " + shit.clusCo(x), shit.pos(x)._1+20, shit.pos(x)._2 + 12)
+         /* text("Node " + nw.node(x), nw.pos(x)._1+20, nw.pos(x)._2)
+          text("Cluster Coefficient " + nw.clusCo(x), nw.pos(x)._1+20, nw.pos(x)._2 + 12)
       }*/
     }
   } //end draw
